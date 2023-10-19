@@ -16,10 +16,24 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState("");
+
+  const handleThemeChange = () => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setMode("dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      setMode("light");
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   useEffect(() => {
-    document.getElementsByTagName("html")[0].classList.add(mode);
+    handleThemeChange();
   }, [mode]);
 
   return (
