@@ -12,7 +12,7 @@ const LeftSideBar = () => {
   const pathName = usePathname();
 
   return (
-    <section className="light-border background-light900_dark200 flex min-h-screen flex-col justify-start border-r px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none lg:w-[266px]">
+    <section className="light-border background-light900_dark200 hidden min-h-screen flex-col justify-start border-r px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none sm:flex lg:w-[266px]">
       <div className="flex flex-1 flex-col gap-6">
         {sidebarLinks.map(({ imgURL, label, route }) => {
           const isActive = pathName === route || pathName.includes(route);

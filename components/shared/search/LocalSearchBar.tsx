@@ -19,7 +19,7 @@ const LocalSearchBar = ({
 }: Props) => {
   return (
     <section
-      className={`background-light800_darkgradient light-border flex min-h-[56px] grow items-center gap-4 rounded-[10px] border px-4 ${
+      className={`background-light800_darkgradient light-border-2 flex min-h-[56px] grow items-center gap-4 rounded-[10px] border px-4 ${
         iconPosition === "left" ? "flex-row" : "flex-row-reverse"
       }`}
     >
