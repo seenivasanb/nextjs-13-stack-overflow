@@ -10,8 +10,8 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div className="flex">
         <LeftSideBar />
 
-        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-36">
-          <div className="mx-auto">{children}</div>
+        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-36 md:px-14 md:pb-14">
+          <div>{children}</div>
         </section>
 
         <RightSideBar />

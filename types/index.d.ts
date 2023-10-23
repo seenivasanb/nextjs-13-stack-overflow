@@ -48,7 +48,12 @@ export interface BadgeCounts {
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;
 
 export type TagProps = {
-  _id: number;
+  _id: string;
   name: string;
   totalQuestions: number;
+};
+
+export type FilterType = {
+  name: string;
+  value: string;
 };
