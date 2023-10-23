@@ -2,11 +2,11 @@ import { HotQuestions, PopularTags } from "@/constants/constants";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import RenderTag from "../rendertag/RenderTag";
+import RenderTag from "./RenderTag";
 
 const RightSideBar = () => {
   return (
-    <section className="background-light900_dark200 text-dark300_light900 body-regular custom-scrollbar sticky flex min-h-screen flex-col justify-start border-r px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden lg:w-[330px]">
+    <section className="background-light900_dark200 light-border text-dark300_light900 body-regular custom-scrollbar sticky flex min-h-screen flex-col justify-start border px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden lg:w-[330px]">
       <div className="mb-[60px]">
         <h3 className="h3-bold mb-7">Hot Network</h3>
         <div className="flex flex-col gap-[30px]">

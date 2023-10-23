@@ -1,6 +1,6 @@
-import LeftSideBar from "@/components/shared/leftsidebar/LeftSideBar";
+import LeftSideBar from "@/components/shared/LeftSideBar";
 import NavBar from "@/components/shared/navbar/NavBar";
-import RightSideBar from "@/components/shared/rightsidebar/RightSideBar";
+import RightSideBar from "@/components/shared/RightSideBar";
 import React, { PropsWithChildren } from "react";
 
 const Layout = ({ children }: PropsWithChildren) => {

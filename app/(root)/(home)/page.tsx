@@ -1,7 +1,7 @@
 "use client";
 
-import Filters from "@/components/shared/filters/Filters";
-import NoResults from "@/components/shared/noresults/NoResults";
+import Filters from "@/components/shared/Filters";
+import NoResults from "@/components/shared/NoResults";
 import QuestionCard from "@/components/shared/cards/QuestionCard";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";

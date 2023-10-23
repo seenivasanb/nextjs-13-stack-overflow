@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import RenderTag from "../rendertag/RenderTag";
-import Metrics from "../metrics/Metrics";
+import RenderTag from "../RenderTag";
+import Metrics from "../Metrics";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 type TagType = {
@@ -42,7 +42,7 @@ const QuestionCard = ({
   views,
 }: Props) => {
   return (
-    <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
+    <div className="card-wrapper light-border rounded-[10px] border p-9 sm:px-11">
       <div className="flex flex-wrap-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
