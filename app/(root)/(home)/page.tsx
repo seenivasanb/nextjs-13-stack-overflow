@@ -42,7 +42,7 @@ export default function Home() {
     <section id="home-page">
       <div className="flex-between mb-[30px] flex flex-row">
         <h1 className="h1-bold text-dark100_light900">All Questions</h1>
-        <Link href="/">
+        <Link href="/ask-question">
           <Button className="primary-gradient paragraph-medium items-center px-6 py-4 text-light-900">
             Ask a Question
           </Button>
