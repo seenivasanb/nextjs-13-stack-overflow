@@ -12,7 +12,7 @@ type TagType = {
 type AuthorType = {
   id: string;
   name: string;
-  picture?: string;
+  picture: string;
 };
 
 type AnswerType = {
@@ -65,7 +65,7 @@ const QuestionCard = ({
 
       <div className="flex-between mt-6 flex w-full flex-wrap gap-3">
         <Metrics
-          imgUrl="/assets/icons/avatar.svg"
+          imgUrl={author.picture!}
           alt="Author"
           value={author.name}
           title={` - asked 1 hour ago ${getTimeStamp(createdOn)}`}
