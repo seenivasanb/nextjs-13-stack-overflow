@@ -11,6 +11,10 @@
     @apply text-light-900 dark:text-dark-100;
   }
 
+  .background-light900_dark100 {
+    @apply bg-light-900 dark:bg-dark-100;
+  }
+
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
   }
@@ -35,12 +39,28 @@
     @apply bg-light-700 dark:bg-dark-300;
   }
 
+  .background-light700_dark200 {
+    @apply bg-light-700 dark:bg-dark-200;
+  }
+
+  .background-light700_dark100 {
+    @apply bg-light-700 dark:bg-dark-100;
+  }
+
   .background-light800_dark400 {
     @apply bg-light-800 dark:bg-dark-400;
   }
 
   .background-light800_dark300 {
     @apply bg-light-800 dark:bg-dark-300 !important;
+  }
+
+  .background-light800_dark100 {
+    @apply bg-light-800 dark:bg-dark-100 !important;
+  }
+
+  .background-light800_dark200 {
+    @apply bg-light-800 dark:bg-dark-200 !important;
   }
 
   .text-dark100_light900 {
