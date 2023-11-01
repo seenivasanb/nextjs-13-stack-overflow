@@ -12,7 +12,9 @@ const SideBarLinks = () => {
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
       {sidebarLinks.map(({ imgURL, label, route }) => {
-        const isActive = pathName === route || pathName.includes(route);
+        const isActive =
+          pathName === route || (route.length > 2 && pathName.includes(route));
+
         return (
           <SheetClose
             asChild

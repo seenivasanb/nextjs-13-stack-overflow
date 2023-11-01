@@ -10,10 +10,11 @@ import {
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import Question from "@/db/models/question.model";
+import console from "console";
 
 export const getUserById = async (params: GetUserByIdParams) => {
   try {
-    connectToDB();
+    await connectToDB();
 
     const { userId } = params;
 
@@ -24,27 +25,24 @@ export const getUserById = async (params: GetUserByIdParams) => {
     return user;
   } catch (error) {
     console.log(error);
-    throw error;
   }
 };
 
 export const createUser = async (params: CreateUserParams) => {
   try {
-    connectToDB();
+    await connectToDB();
 
     const user = await User.create(params);
 
     return user;
   } catch (error) {
     console.log(error);
-
-    throw error;
   }
 };
 
 export const updateUser = async (params: UpdateUserParams) => {
   try {
-    connectToDB();
+    await connectToDB();
 
     const { clerkId, path, updateData } = params;
 
@@ -53,12 +51,14 @@ export const updateUser = async (params: UpdateUserParams) => {
     });
 
     revalidatePath(path);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteUser = async (params: DeleteUserParams) => {
   try {
-    connectToDB();
+    await connectToDB();
 
     const { clerkId } = params;
 
@@ -79,5 +79,7 @@ export const deleteUser = async (params: DeleteUserParams) => {
     const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };

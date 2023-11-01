@@ -16,7 +16,7 @@ const Page = async () => {
         Ask a public question
       </h1>
 
-      <Question mongoUserId={JSON.stringify(mongoUser._id)} />
+      <Question mongoUserId={JSON.stringify(mongoUser?._id)} />
     </section>
   );
 };
