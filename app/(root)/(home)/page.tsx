@@ -1,5 +1,4 @@
-"use client";
-
+import { getQuestions } from "@/actions/question.action";
 import Filters from "@/components/shared/Filters";
 import NoResults from "@/components/shared/NoResults";
 import QuestionCard from "@/components/shared/cards/QuestionCard";
@@ -8,36 +7,9 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import Link from "next/link";
 
-const questions = [
-  {
-    id: "1",
-    title: "Cascading Deletes in SQLAlchemy",
-    tags: [
-      { id: "1", name: "python" },
-      { id: "2", name: "sql" },
-    ],
-    author: { id: "12", name: "Seenivasan" },
-    upvotes: 104324,
-    views: 1212300,
-    answers: [],
-    createdAt: new Date("2023-09-01T12:00:00.000Z"),
-  },
-  {
-    id: "2",
-    title: "How to center a div",
-    tags: [
-      { id: "1", name: "css" },
-      { id: "2", name: "scss" },
-    ],
-    author: { id: "12", name: "Senthil" },
-    upvotes: 41211,
-    views: 532123,
-    answers: [],
-    createdAt: new Date("2023-02-25T12:00:00.000Z"),
-  },
-];
+export default async function Home() {
+  const result: any = await getQuestions({});
 
-export default function Home() {
   return (
     <section id="home-page">
       <div className="flex-between mb-[30px] flex flex-row">
@@ -65,9 +37,19 @@ export default function Home() {
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions?.length > 0 ? (
-          questions.map((question) => (
-            <QuestionCard key={question.id} {...question} />
+        {result?.questions?.length > 0 ? (
+          result?.questions.map((question: any) => (
+            <QuestionCard
+              key={question._id}
+              id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdOn={question.createdOn}
+            />
           ))
         ) : (
           <NoResults

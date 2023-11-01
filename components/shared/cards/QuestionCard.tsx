@@ -28,13 +28,13 @@ type Props = {
   upvotes: number;
   views: number;
   answers: AnswerType[];
-  createdAt: Date;
+  createdOn: Date;
 };
 
 const QuestionCard = ({
   answers,
   author,
-  createdAt,
+  createdOn,
   id,
   tags,
   title,
@@ -46,7 +46,7 @@ const QuestionCard = ({
       <div className="flex flex-wrap-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
-            {getTimeStamp(createdAt)}
+            {getTimeStamp(createdOn)}
           </span>
 
           <Link href={`/question/${id}`}>
@@ -68,7 +68,7 @@ const QuestionCard = ({
           imgUrl="/assets/icons/avatar.svg"
           alt="Author"
           value={author.name}
-          title={` - asked 1 hour ago ${getTimeStamp(createdAt)}`}
+          title={` - asked 1 hour ago ${getTimeStamp(createdOn)}`}
           href={`/profile/${author.id}`}
           textStyle="small-medium text-dark400_light800"
           isAuthor

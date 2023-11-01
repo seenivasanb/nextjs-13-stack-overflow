@@ -5,7 +5,7 @@ export const questionSchema = z.object({
     .string({ required_error: "Title is required" })
     .min(5, "Title must be at least 5 characters")
     .max(130, "Title must be maximum 130 characters"),
-  explantion: z
+  explanation: z
     .string({ required_error: "Explanation is required" })
     .min(100, "Explanation must be at least 100 characters"),
   tags: z
