@@ -32,7 +32,6 @@ export const getQuestionById = async (params: GetQuestionByIdParams) => {
     await connectToDB();
 
     const { questionId } = params;
-
     const question = await Question.findById(questionId)
       .populate({ path: "tags", model: Tag, select: "_id name" })
       .populate({
@@ -48,6 +47,7 @@ export const getQuestionById = async (params: GetQuestionByIdParams) => {
 };
 
 export const createQuestion = async (params: CreateQuestionParams) => {
+  console.log("params: ", params);
   try {
     await connectToDB();
 
@@ -67,10 +67,12 @@ export const createQuestion = async (params: CreateQuestionParams) => {
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
         {
           $setOnInsert: { name: tag },
-          $push: { question: question._id },
+          $push: { questions: question._id },
         },
         { upsert: true, new: true }
       );
+
+      console.log("existingTag", existingTag);
 
       tagDocuments.push(existingTag._id);
     }

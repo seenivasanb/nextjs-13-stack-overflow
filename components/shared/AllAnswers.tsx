@@ -27,20 +27,22 @@ const AllAnswers = async ({
 
   return (
     <div className="mt-11">
-      <div className="flex items-center justify-between">
-        <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
+      {totalAnswers ? (
+        <div className="flex items-center justify-between">
+          <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
 
-        <Filters
-          filters={AnswerFilters}
-          containerClasses="w-[200px] h-[36px]"
-        />
-      </div>
+          <Filters
+            filters={AnswerFilters}
+            containerClasses="w-[200px] h-[36px]"
+          />
+        </div>
+      ) : null}
 
       <div>
         {answers?.map((answer) => (
           <article
             key={answer._id}
-            className="light-border mb-8 border-b pb-4 pt-10"
+            className="light-border border-b pb-4 pt-10"
           >
             <div className="mb-6 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
               <Link
@@ -76,7 +78,7 @@ const AllAnswers = async ({
               />
             </div>
 
-            <div id="parse-content">
+            <div id="parse-content" className="text-dark400_light700 ">
               <ParseHTML data={answer.content} />
             </div>
           </article>

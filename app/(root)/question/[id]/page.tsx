@@ -69,7 +69,7 @@ const Question = async ({ params }: Props) => {
         <Metrics
           imgUrl="/assets/icons/message.svg"
           alt="Answer"
-          value={formatNumber(question.views)}
+          value={formatNumber(question.answers.length)}
           title="Answers"
           textStyle="small-medium text-dark400_light700"
         />

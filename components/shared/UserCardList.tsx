@@ -1,13 +1,14 @@
 import { getAllUsers } from "@/actions/user.action";
 import React from "react";
 import UserCard from "../cards/UserCard";
+import NoResults from "./NoResults";
 
 const UserCardList = async () => {
   const users = await getAllUsers({});
 
   return (
     <div className="flex flex-wrap gap-4">
-      {users?.length && users.length > 0 && (
+      {users?.length && users.length > 0 ? (
         <>
           {users.map(
             ({
@@ -36,6 +37,11 @@ const UserCardList = async () => {
             )
           )}
         </>
+      ) : (
+        <NoResults
+          title="There’s no users to show"
+          description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
+        />
       )}
     </div>
   );

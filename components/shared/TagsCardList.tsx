@@ -12,7 +12,7 @@ const TagsCardList = async () => {
         tags?.map((tag) => (
           <TagCard
             key={tag._id}
-            _id={tag.name}
+            _id={tag._id}
             name={tag.name}
             questions={tag.questions}
           />

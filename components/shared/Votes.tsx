@@ -1,12 +1,13 @@
 "use client";
 
 import { formatNumber } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { downvoteQuestion, upvoteQuestion } from "@/actions/question.action";
 import { usePathname } from "next/navigation";
 import { downvoteAnswer, upvoteAnswer } from "@/actions/answer.action";
 import { toggleSaveQuestion } from "@/actions/user.action";
+import { viewQuestion } from "@/actions/interaction.action";
 
 type Props = {
   type: string;
@@ -76,6 +77,13 @@ const Votes = ({
       userId: JSON.parse(userId),
     });
   };
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(itemId),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
+  }, [itemId, userId]);
 
   return (
     <div className="flex gap-5">
