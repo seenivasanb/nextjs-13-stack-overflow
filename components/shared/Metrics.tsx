@@ -31,25 +31,29 @@ const Metrics = ({
       />
       <p className={`${textStyle} flex items-center gap-1`}>
         <span>{value}</span>
-        <span
-          className={`small-regular line-clamp-1 ${
-            isAuthor ? "max-sm:hidden" : ""
-          }`}
-        >
-          {title}
-        </span>
+        {title && (
+          <span
+            className={`small-regular line-clamp-1 ${
+              isAuthor ? "max-sm:hidden" : ""
+            }`}
+          >
+            {title}
+          </span>
+        )}
       </p>
     </>
   );
 
   if (href) {
     return (
-      <Link className="flex-center gap-1" href={href}>
+      <Link className="flex-center cursor-pointer gap-1" href={href}>
         {metricsContent}
       </Link>
     );
   }
-  return <div className="flex-center gap-1">{metricsContent}</div>;
+  return (
+    <div className="flex-center cursor-pointer gap-1">{metricsContent}</div>
+  );
 };
 
 export default Metrics;

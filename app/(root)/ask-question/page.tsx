@@ -1,5 +1,5 @@
 import { getUserById } from "@/actions/user.action";
-import Question from "@/components/shared/question";
+import Question from "@/components/forms/Question";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";

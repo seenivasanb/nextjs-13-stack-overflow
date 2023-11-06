@@ -1,7 +1,8 @@
 import { getQuestions } from "@/actions/question.action";
+import QuestionCard from "@/components/cards/QuestionCard";
+import HomeFilters from "@/components/home/HomeFilters";
 import Filters from "@/components/shared/Filters";
 import NoResults from "@/components/shared/NoResults";
-import QuestionCard from "@/components/shared/cards/QuestionCard";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
@@ -27,14 +28,16 @@ export default async function Home() {
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for question"
-          otherClasses="flex-1"
+          otherClasses=""
         />
         <Filters
           filters={HomePageFilters}
           otherClasses="w-full h-full min-h-[56px] sm:w-[170px] md:hidden"
-          containerClasses=""
+          containerClasses="md:hidden flex min-h-[56px] sm:w-[170px]"
         />
       </div>
+
+      <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result?.questions?.length > 0 ? (
@@ -45,7 +48,7 @@ export default async function Home() {
               title={question.title}
               tags={question.tags}
               author={question.author}
-              upvotes={question.upvotes}
+              upvotes={question.upvotes.length}
               views={question.views}
               answers={question.answers}
               createdOn={question.createdOn}
