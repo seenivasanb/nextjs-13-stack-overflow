@@ -40,7 +40,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
             },
           }}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <div className="background-light850_dark100">{children}</div>
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>

@@ -20,7 +20,7 @@ const UserCard = async ({ _id, clerkId, name, username, picture }: Props) => {
   const tags = await getTopInteractedTags({ userId: _id, limit: 3 });
 
   return (
-    <article className="card-wrapper light-border flex-center mt-12 w-[262px] flex-col flex-wrap rounded-[10px] border p-[30px]">
+    <article className="card-wrapper light-border flex-center mt-12 w-full flex-col flex-wrap rounded-[10px] border p-[30px] sm:w-[262px]">
       <Image
         src={picture}
         alt="username"

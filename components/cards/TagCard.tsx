@@ -9,7 +9,7 @@ type Props = {
 
 const TagCard = ({ _id, name, questions }: Props) => {
   return (
-    <article className="card-wrapper light-border shadow-light100_darknone w-[262px] flex-col flex-wrap rounded-[10px] border p-[30px]">
+    <article className="card-wrapper light-border shadow-light100_darknone w-full flex-col flex-wrap rounded-[10px] border p-[30px] sm:w-[262px]">
       <div className="background-light800_dark400 w-fit rounded-[4px] px-5 py-1">
         <Link
           href={`/tags/${_id}`}

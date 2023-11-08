@@ -15,6 +15,8 @@ import {
 import { revalidatePath } from "next/cache";
 import Question from "@/db/models/question.model";
 import Tag from "@/db/models/tag.model";
+import Answer from "@/db/models/answer.model";
+import console from "console";
 
 export const getUserById = async (params: GetUserByIdParams) => {
   try {
@@ -160,6 +162,26 @@ export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
     const savedQuestions = user.saved;
 
     return { questions: savedQuestions };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserInfo = async (params: GetUserByIdParams) => {
+  try {
+    const { userId } = params;
+
+    await connectToDB();
+
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+
+    return { user, totalAnswers, totalQuestions };
   } catch (error) {
     console.log(error);
   }
