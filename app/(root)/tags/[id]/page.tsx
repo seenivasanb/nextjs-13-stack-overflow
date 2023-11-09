@@ -58,6 +58,8 @@ const Tag = async ({ params }: Props) => {
               views={question.views}
               answers={question.answers}
               createdOn={question.createdOn}
+              itemId={JSON.stringify(question._id)}
+              type="question"
             />
           ))
         ) : (
