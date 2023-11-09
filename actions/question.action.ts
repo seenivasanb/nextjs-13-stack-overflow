@@ -72,8 +72,6 @@ export const createQuestion = async (params: CreateQuestionParams) => {
         { upsert: true, new: true }
       );
 
-      console.log("existingTag", existingTag);
-
       tagDocuments.push(existingTag._id);
     }
 
@@ -174,9 +172,6 @@ export const deleteQuestion = async (params: DeleteQuestionParams) => {
         },
       }
     );
-
-    console.log("DELETE QUESTION");
-
     revalidatePath(path);
   } catch (error) {
     console.log(error);
