@@ -5,12 +5,15 @@ import Tag from "@/db/models/tag.model";
 import { connectToDB } from "@/db/mongoose";
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./shared.types";
 import User from "@/db/models/user.model";
 import { revalidatePath } from "next/cache";
+import Answer from "@/db/models/answer.model";
+import Interaction from "@/db/models/interaction.model";
 
 export const getQuestions = async (params: GetQuestionsParams) => {
   try {
@@ -47,19 +50,16 @@ export const getQuestionById = async (params: GetQuestionByIdParams) => {
 };
 
 export const createQuestion = async (params: CreateQuestionParams) => {
-  console.log("params: ", params);
   try {
     await connectToDB();
 
     const { title, content, tags, author, path } = params;
-
     const question = await Question.create({
       title,
       content,
       author,
       path,
     });
-
     const tagDocuments = [];
 
     for (const tag of tags) {
@@ -150,6 +150,32 @@ export const downvoteQuestion = async (params: QuestionVoteParams) => {
     if (!question) {
       throw new Error("Question not found");
     }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteQuestion = async (params: DeleteQuestionParams) => {
+  try {
+    await connectToDB();
+
+    const { path, questionId } = params;
+
+    await Question.deleteOne({ _id: questionId });
+    await Answer.deleteOne({ question: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany(
+      { questions: questionId },
+      {
+        $pull: {
+          questions: questionId,
+        },
+      }
+    );
+
+    console.log("DELETE QUESTION");
 
     revalidatePath(path);
   } catch (error) {

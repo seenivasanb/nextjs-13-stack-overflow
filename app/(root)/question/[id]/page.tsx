@@ -11,12 +11,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Votes from "@/components/shared/Votes";
+import { URLProps } from "@/types";
 
-type Props = {
-  params: any;
-};
-
-const Question = async ({ params }: Props) => {
+const Question = async ({ params }: URLProps) => {
   const question = await getQuestionById({ questionId: params.id });
   const { userId } = auth();
 

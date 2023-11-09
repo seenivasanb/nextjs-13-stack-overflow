@@ -1,7 +1,5 @@
-import { getQuestions } from "@/actions/question.action";
 import { getTopInteractedTags } from "@/actions/tag.action";
 import { getUserInfo } from "@/actions/user.action";
-import QuestionCard from "@/components/cards/QuestionCard";
 import NoResults from "@/components/shared/NoResults";
 import RenderTag from "@/components/shared/RenderTag";
 import { Button } from "@/components/ui/button";
@@ -13,8 +11,11 @@ import Link from "next/link";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/shared/ProfileLink";
+import Stats from "@/components/shared/Stats";
+import QuestionTab from "@/components/shared/QuestionTab";
+import AnswerTab from "@/components/shared/AnswerTab";
 
-const Profile = async ({ params }: URLProps) => {
+const Profile = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({ userId: params.id });
 
@@ -27,11 +28,7 @@ const Profile = async ({ params }: URLProps) => {
     );
 
   const { user, totalAnswers, totalQuestions }: any = userInfo;
-  const { picture, name, username, joinedOn } = user;
-
-  console.log(user.location);
-
-  const result: any = await getQuestions({});
+  const { picture, email, name, username, joinedOn } = user;
   const tags = await getTopInteractedTags({ userId: clerkId! });
 
   return (
@@ -56,7 +53,7 @@ const Profile = async ({ params }: URLProps) => {
             </div>
             <div>
               <SignedIn>
-                {clerkId === userInfo.user.clerkId && (
+                {clerkId === user.clerkId && (
                   <Link href={`/profile/edit`}>
                     <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3">
                       Edit Profile
@@ -74,6 +71,13 @@ const Profile = async ({ params }: URLProps) => {
                 title="Portfolio"
               />
             )}
+            {email && (
+              <ProfileLink
+                imgUrl="/assets/icons/link.svg"
+                href={`mailto:${email}`}
+                title={email}
+              />
+            )}
 
             {user.location && (
               <ProfileLink
@@ -81,10 +85,7 @@ const Profile = async ({ params }: URLProps) => {
                 title={user.location}
               />
             )}
-            <ProfileLink
-              imgUrl="/assets/icons/calendar.svg"
-              title={getJoinedDate(joinedOn)}
-            />
+
             <ProfileLink
               imgUrl="/assets/icons/calendar.svg"
               title={getJoinedDate(joinedOn)}
@@ -104,59 +105,10 @@ const Profile = async ({ params }: URLProps) => {
         career of your dreams. Check out jsmastery.pro
       </p>
 
-      <h3 className="h3-bold text-dark200_light900 mb-5 mt-10">Stats</h3>
+      <Stats totalAnswers={totalAnswers} totalQuestions={totalQuestions} />
 
-      <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
-        <div className="card-wrapper light-border-2 background-light700_dark300 flex-between flex-wrap rounded-[10px] border px-10 py-5">
-          <div className="text-dark200_light900">
-            <p className="paragraph-semibold">{totalAnswers}</p>
-            <span className="text-dark400_light700">Answers</span>
-          </div>
-          <div className="text-dark200_light900">
-            <p className="paragraph-semibold">{totalQuestions}</p>
-            <span>Questions</span>
-          </div>
-        </div>
-        <div className="card-wrapper light-border-2 background-light700_dark300 flex-center flex-wrap gap-4 rounded-[10px] border px-6 py-5">
-          <Image
-            src="/assets/icons/gold-medal.svg"
-            width={36}
-            height={50}
-            alt="Gold Medal"
-          />
-          <div className="text-dark200_light900">
-            <p className="paragraph-semibold">{totalAnswers}</p>
-            <span className="text-dark400_light700">Answers</span>
-          </div>
-        </div>
-        <div className="card-wrapper light-border-2 background-light700_dark300 flex-center flex-wrap gap-4 rounded-[10px] border px-6 py-5">
-          <Image
-            src="/assets/icons/gold-medal.svg"
-            width={36}
-            height={50}
-            alt="Gold Medal"
-          />
-          <div className="text-dark200_light900">
-            <p className="paragraph-semibold">{totalAnswers}</p>
-            <span className="text-dark400_light700">Answers</span>
-          </div>
-        </div>
-        <div className="card-wrapper light-border-2 background-light700_dark300 flex-center flex-wrap gap-4 rounded-[10px] border px-6 py-5">
-          <Image
-            src="/assets/icons/gold-medal.svg"
-            width={36}
-            height={50}
-            alt="Gold Medal"
-          />
-          <div className="text-dark200_light900">
-            <p className="paragraph-semibold">{totalAnswers}</p>
-            <span className="text-dark400_light700">Answers</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-10 flex justify-between gap-4">
-        <div className="w-10/12">
+      <div className="mt-10 flex flex-col justify-between gap-4 md:flex-row">
+        <div className="md:w-10/12">
           <div className="flex gap-10">
             <Tabs defaultValue="top-posts" className="flex-1">
               <TabsList className="background-light800_dark400 mb-6 min-h-[42px] p-0">
@@ -173,34 +125,21 @@ const Profile = async ({ params }: URLProps) => {
                   Answers
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="top-posts">
-                <div className="flex w-full flex-col gap-6">
-                  {result?.questions?.length > 0 ? (
-                    result?.questions.map((question: any) => (
-                      <QuestionCard
-                        key={question._id}
-                        id={question._id}
-                        title={question.title}
-                        tags={question.tags}
-                        author={question.author}
-                        upvotes={question.upvotes.length}
-                        views={question.views}
-                        answers={question.answers}
-                        createdOn={question.createdOn}
-                      />
-                    ))
-                  ) : (
-                    <NoResults
-                      title="There’s no question to show"
-                      description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
-                      linkUrl="/ask-question"
-                      linkTitle="Ask a Question"
-                    />
-                  )}
-                </div>
+              <TabsContent value="top-posts" className="flex flex-col gap-4">
+                <QuestionTab
+                  searchParams={searchParams}
+                  searchProps={searchParams.toString()}
+                  userId={user._id}
+                  clerkId={clerkId}
+                />
               </TabsContent>
-              <TabsContent value="answers">
-                <h3 className="h3-bold text-dark200_light900 mb-5">Answers</h3>
+              <TabsContent value="answers" className="flex flex-col gap-4">
+                <AnswerTab
+                  searchParams={searchParams}
+                  searchProps={searchParams.toString()}
+                  userId={user._id}
+                  clerkId={clerkId}
+                />
               </TabsContent>
             </Tabs>
           </div>
