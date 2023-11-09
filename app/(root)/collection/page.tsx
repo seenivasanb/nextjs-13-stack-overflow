@@ -47,6 +47,7 @@ const Collection = async () => {
         {result?.questions?.length > 0 ? (
           result?.questions.map((question: any) => (
             <QuestionCard
+              itemId={JSON.stringify(question._id)}
               key={question._id}
               id={question._id}
               title={question.title}
@@ -56,6 +57,7 @@ const Collection = async () => {
               views={question.views}
               answers={question.answers}
               createdOn={question.createdOn}
+              type="question"
             />
           ))
         ) : (
