@@ -12,7 +12,7 @@ const Stats = ({ totalAnswers, totalQuestions }: Props) => {
       <h3 className="h3-bold text-dark200_light900 mb-5">Stats</h3>
 
       <div className="grid grid-cols-1 gap-10 xs:grid-cols-2 md:grid-cols-4">
-        <div className="card-wrapper light-border background-light900_dark300 flex-between flex-wrap rounded-[10px] border p-6 shadow-light-300 dark:shadow-dark-200">
+        <div className="card-wrapper light-border background-light900_dark300 flex flex-wrap items-center justify-start gap-4 rounded-[10px] border p-6 shadow-light-300 dark:shadow-dark-200">
           <div className="text-dark200_light900">
             <p className="paragraph-semibold">{totalAnswers}</p>
             <span className="text-dark400_light700">Answers</span>

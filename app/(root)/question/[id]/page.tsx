@@ -12,10 +12,13 @@ import Link from "next/link";
 import React from "react";
 import Votes from "@/components/shared/Votes";
 import { URLProps } from "@/types";
+import NoResults from "@/components/shared/NoResults";
 
 const Question = async ({ params }: URLProps) => {
   const question = await getQuestionById({ questionId: params.id });
   const { userId } = auth();
+
+  if (!question?._id) return <NoResults title="Question not found!" />;
 
   let mongoUser;
   if (userId) mongoUser = await getUserById({ userId });

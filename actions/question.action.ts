@@ -6,6 +6,7 @@ import { connectToDB } from "@/db/mongoose";
 import {
   CreateQuestionParams,
   DeleteQuestionParams,
+  EditQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
@@ -175,5 +176,27 @@ export const deleteQuestion = async (params: DeleteQuestionParams) => {
     revalidatePath(path);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const editQuestion = async (params: EditQuestionParams) => {
+  try {
+    await connectToDB();
+
+    const { content, path, questionId, title } = params;
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      throw new Error("Question is not found");
+    }
+
+    question.title = title;
+    question.content = content;
+
+    await question.save();
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log("Failed to edit the question");
   }
 };
