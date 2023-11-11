@@ -19,28 +19,37 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import { createQuestion } from "@/actions/question.action";
+import { createQuestion, editQuestion } from "@/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
-
-const type: any = "create";
+import { useTheme } from "@/context/theme-provider";
+import { Badge } from "../ui/badge";
+import { TagProps } from "@/types";
 
 type Props = {
+  type?: string;
   mongoUserId: string;
+  questionDetails?: string;
 };
 
-const Question = ({ mongoUserId }: Props) => {
+const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const richEditorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
   const pathName = usePathname();
+  const { mode } = useTheme();
+
+  const parsedQuestionDetails = JSON.parse(questionDetails || "");
+  const groupedTags = parsedQuestionDetails?.tags?.map(
+    (tag: TagProps) => tag.name
+  );
 
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: parsedQuestionDetails.title || "",
+      explanation: parsedQuestionDetails.content || "",
+      tags: groupedTags || [],
     },
   });
 
@@ -50,15 +59,26 @@ const Question = ({ mongoUserId }: Props) => {
     const { title, explanation: content, tags } = values;
 
     try {
-      await createQuestion({
-        title,
-        content,
-        tags,
-        author: JSON.parse(mongoUserId),
-        path: pathName,
-      });
+      if (type === "Edit") {
+        await editQuestion({
+          content,
+          path: pathName,
+          questionId: parsedQuestionDetails._id,
+          title,
+        });
 
-      router.push("/");
+        router.push(`/question/${parsedQuestionDetails._id}`);
+      } else {
+        await createQuestion({
+          title,
+          content,
+          tags,
+          author: JSON.parse(mongoUserId),
+          path: pathName,
+        });
+
+        router.push("/");
+      }
     } catch (error) {
       setIsSubmitting(false);
     }
@@ -90,6 +110,12 @@ const Question = ({ mongoUserId }: Props) => {
         form.trigger();
       }
     }
+  };
+
+  const handleTagRemove = (tag: string, field: any) => {
+    const newTags = field.value.filter((t: string) => t !== tag);
+
+    form.setValue("tags", newTags);
   };
 
   return (
@@ -143,7 +169,7 @@ const Question = ({ mongoUserId }: Props) => {
                     }}
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
-                    initialValue=""
+                    initialValue={parsedQuestionDetails.content || ""}
                     init={{
                       height: 290,
                       menubar: false,
@@ -171,6 +197,8 @@ const Question = ({ mongoUserId }: Props) => {
                         "removeformat | help",
                       content_style:
                         "body { font-family: Inter, font-size: 16px",
+                      skin: mode === "dark" ? "oxide-dark" : "oxide",
+                      content_css: mode === "dark" ? "dark" : "light",
                     }}
                   />
                 </FormControl>
@@ -197,6 +225,7 @@ const Question = ({ mongoUserId }: Props) => {
                 <FormControl className="relative">
                   <>
                     <Input
+                      disabled={type === "Edit"}
                       className="background-light800_dark400 text-dark100_light900 aria-[invalid=false]:light-border-2 no-focus mb-[10px] h-[53px] w-full rounded-md border px-6 py-4 text-base focus:outline-none aria-[invalid=true]:border-red-500"
                       placeholder="Enter your tags here..."
                       onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -205,19 +234,24 @@ const Question = ({ mongoUserId }: Props) => {
                     {field.value.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {field.value.map((tag) => (
-                          <span
+                          <Badge
                             key={tag}
                             className="background-light800_dark300 text-dark400_light700 hover:background-light700_dark400 flex cursor-pointer gap-2 rounded-md px-2 py-1 text-sm"
+                            onClick={() =>
+                              type !== "edit" ? handleTagRemove(tag, field) : {}
+                            }
                           >
                             {tag}
-                            <Image
-                              src="/assets/icons/close.svg"
-                              width={12}
-                              height={12}
-                              alt="close"
-                              className="invert-0 dark:invert"
-                            />
-                          </span>
+                            {type !== "Edit" && (
+                              <Image
+                                src="/assets/icons/close.svg"
+                                width={12}
+                                height={12}
+                                alt="close"
+                                className="invert-0 dark:invert"
+                              />
+                            )}
+                          </Badge>
                         ))}
                       </div>
                     )}

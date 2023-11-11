@@ -1,20 +1,28 @@
-import { getQuestions } from "@/actions/question.action";
+import { getQuestionsByTagId } from "@/actions/tag.action";
 import QuestionCard from "@/components/cards/QuestionCard";
-import HomeFilters from "@/components/home/HomeFilters";
 import Filters from "@/components/shared/Filters";
 import NoResults from "@/components/shared/NoResults";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
-import Link from "next/link";
+import { Link } from "lucide-react";
+import React from "react";
 
-export default async function Home() {
-  const result: any = await getQuestions({});
+type Props = {
+  params: {
+    id: string;
+  };
+};
+const Tag = async ({ params }: Props) => {
+  const { id } = params;
+  const result = await getQuestionsByTagId({ tagId: id });
 
   return (
     <section id="home-page">
       <div className="flex-between mb-[30px] flex flex-row">
-        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
+        <h1 className="h1-bold text-dark100_light900 tracking-wide">
+          {result?.tagTitle.toUpperCase()}
+        </h1>
         <Link href="/ask-question">
           <Button className="primary-gradient paragraph-medium items-center px-6 py-4 text-light-900">
             Ask a Question
@@ -37,13 +45,10 @@ export default async function Home() {
         />
       </div>
 
-      <HomeFilters />
-
       <div className="mt-10 flex w-full flex-col gap-6">
         {result?.questions?.length > 0 ? (
           result?.questions.map((question: any) => (
             <QuestionCard
-              itemId={JSON.stringify(question._id)}
               key={question._id}
               id={question._id}
               title={question.title}
@@ -53,7 +58,8 @@ export default async function Home() {
               views={question.views}
               answers={question.answers}
               createdOn={question.createdOn}
-              type="answer"
+              itemId={JSON.stringify(question._id)}
+              type="question"
             />
           ))
         ) : (
@@ -67,4 +73,6 @@ export default async function Home() {
       </div>
     </section>
   );
-}
+};
+
+export default Tag;

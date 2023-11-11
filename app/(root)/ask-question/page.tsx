@@ -1,12 +1,11 @@
 import { getUserById } from "@/actions/user.action";
-import Question from "@/components/shared/question";
-// import { auth } from "@clerk/nextjs";
+import Question from "@/components/forms/Question";
+import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const Page = async () => {
-  // const { userId } = auth();
-  const userId = "12345";
+  const { userId } = auth();
   if (!userId) redirect("/sign-in");
 
   const mongoUser = await getUserById({ userId });
@@ -17,7 +16,7 @@ const Page = async () => {
         Ask a public question
       </h1>
 
-      <Question mongoUserId={JSON.stringify(mongoUser._id)} />
+      <Question mongoUserId={JSON.stringify(mongoUser?._id)} />
     </section>
   );
 };

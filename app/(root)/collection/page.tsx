@@ -1,20 +1,26 @@
-import { getQuestions } from "@/actions/question.action";
+import { getSavedQuestions } from "@/actions/user.action";
 import QuestionCard from "@/components/cards/QuestionCard";
-import HomeFilters from "@/components/home/HomeFilters";
 import Filters from "@/components/shared/Filters";
 import NoResults from "@/components/shared/NoResults";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
-import { HomePageFilters } from "@/constants/filters";
-import Link from "next/link";
+import { QuestionFilters } from "@/constants/filters";
+import { auth } from "@clerk/nextjs";
+import { Link } from "lucide-react";
+import React from "react";
 
-export default async function Home() {
-  const result: any = await getQuestions({});
+const Collection = async () => {
+  const { userId } = auth();
+  if (!userId) return null;
+
+  const result: any = await getSavedQuestions({
+    clerkId: userId,
+  });
 
   return (
     <section id="home-page">
       <div className="flex-between mb-[30px] flex flex-row">
-        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
+        <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
         <Link href="/ask-question">
           <Button className="primary-gradient paragraph-medium items-center px-6 py-4 text-light-900">
             Ask a Question
@@ -22,7 +28,7 @@ export default async function Home() {
         </Link>
       </div>
 
-      <div className="flex flex-col gap-[30px] sm:flex-row md:flex-col">
+      <div className="flex flex-col gap-[30px] sm:flex-col md:flex-row">
         <LocalSearchBar
           route="/"
           iconPosition="left"
@@ -31,13 +37,11 @@ export default async function Home() {
           otherClasses=""
         />
         <Filters
-          filters={HomePageFilters}
-          otherClasses="w-full h-full min-h-[56px] sm:w-[170px] md:hidden"
-          containerClasses="md:hidden flex min-h-[56px] sm:w-[170px]"
+          filters={QuestionFilters}
+          otherClasses="w-full h-full min-h-[56px] md:w-[170px]"
+          containerClasses="w-full flex min-h-[56px] md:w-[170px]"
         />
       </div>
-
-      <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result?.questions?.length > 0 ? (
@@ -53,7 +57,7 @@ export default async function Home() {
               views={question.views}
               answers={question.answers}
               createdOn={question.createdOn}
-              type="answer"
+              type="question"
             />
           ))
         ) : (
@@ -67,4 +71,6 @@ export default async function Home() {
       </div>
     </section>
   );
-}
+};
+
+export default Collection;

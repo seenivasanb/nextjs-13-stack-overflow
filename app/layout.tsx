@@ -4,6 +4,7 @@ import React, { PropsWithChildren } from "react";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
+import "../styles/prism.css";
 import { ThemeProvider } from "@/context/theme-provider";
 
 const inter = Inter({
@@ -39,7 +40,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
             },
           }}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <div className="background-light850_dark100">{children}</div>
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>

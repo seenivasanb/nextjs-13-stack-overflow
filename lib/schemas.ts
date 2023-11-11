@@ -15,3 +15,7 @@ export const questionSchema = z.object({
     .min(1)
     .max(3),
 });
+
+export const AnswerSchema = z.object({
+  answer: z.string().min(100),
+});
